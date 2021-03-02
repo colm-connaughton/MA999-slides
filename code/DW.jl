@@ -35,7 +35,7 @@ function create_properties(size_dflt, T_opt_dflt, T_range_dflt, P_death_dflt, P_
     )
 end
 
-properties_dflt = create_properties(size_dflt, T_opt_dflt, T_range_dflt, P_death_dflt, P_growth_dflt, delta_dflt, albedo_dflt)
+properties_dflt = create_properties(size_dflt, T_opt_dflt, T_range_dflt, P_death_dflt, P_growth_dflt, delta_dflt, albedo_dflt, F_dflt)
 
 function agent_step!(agent, model)
     if agent.colour == 3
@@ -60,7 +60,8 @@ function model_step!(model)
     t =  model.step
     δ = model.delta
     F = model.flux
-    A = model.albedo
+    # Calculate the proportion of absorbed energy
+    A = [1.0- x for x in model.albedo]
     
     # Calculate the temperature at each point in the space
     for pos in positions(model)
@@ -86,10 +87,13 @@ function initialise(;dims = (size,size), properties=dflt_properties)
     space = GridSpace(dims, periodic = true)
     
     model = ABM(daisy_patch, space; scheduler = fastest, properties=properties)
+    
+    # Initial temperature is that of "bare" planet
+    Tinit = properties[:flux](1)*properties[:albedo][3]
    
     # Add an agent to each node of the space. Initially all have type 3 (empty) and temperature 0
     for node in nodes(model)
-        add_agent!(node, model, 3, 0.0)
+        add_agent!(node, model, 3, Tinit)
     end
     
     return model
