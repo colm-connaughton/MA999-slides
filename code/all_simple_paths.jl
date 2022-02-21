@@ -1,6 +1,6 @@
 # i-aki-y's proposed addition to LightGraphs.jl by from the PR at https://github.com/JuliaGraphs/LightGraphs.jl/issues/1521
 
-using LightGraphs
+using Graphs
 using DataStructures
 
 """

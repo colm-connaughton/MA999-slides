@@ -1,6 +1,7 @@
 module CG
 
 using Agents
+using Graphs
 using DataFrames
 using Plots
 using Statistics
@@ -11,10 +12,10 @@ include("all_simple_paths.jl")
 
 # Make a default graph
 dflt_G = DiGraph(4) # graph with 4 vertices
-add_edge!(dflt_G, 1, 2)
-add_edge!(dflt_G, 1, 3)
-add_edge!(dflt_G, 2, 4)
-add_edge!(dflt_G, 3, 4)
+Graphs.add_edge!(dflt_G, 1, 2)
+Graphs.add_edge!(dflt_G, 1, 3)
+Graphs.add_edge!(dflt_G, 2, 4)
+Graphs.add_edge!(dflt_G, 3, 4)
 
 # Set default link parameters 
 dflt_link_parameters = [(0.1, 0.0), (0.0, 15.0), (0.0, 15.0), (0.1, 0.0)];
